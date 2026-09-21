@@ -1,0 +1,19 @@
+# Visual Studio specific files
+.vs/
+*.user
+*.suo
+*.db
+*.pdb
+*.idb
+*.ilk
+
+# Build outputs
+x64/
+x86/
+Debug/
+Release/
+*.obj
+*.exe
+
+# Optional: Ignore local SDL DLLs if you are pulling from a central folder
+# *.dll
