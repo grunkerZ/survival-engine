@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Engine.h"
+#include <cstdlib>
 
 GameEngine game;
 
@@ -17,10 +18,16 @@ int main(int argc, char* argv[]) {
 	Uint64 lastTime = SDL_GetTicks64();
 
 	game.assets.AddTexture(game.renderer, "player", "sprites/fb5.png");
+	game.assets.AddTexture(game.renderer, "skull", "sprites/fb225.png");
 	game.registry.sprites[player] = game.assets.GetTexture("player");
 
-	if (game.registry.sprites[player] == nullptr) {
-		std::cout << "ERROR: Texture failed to load: " << IMG_GetError() << std::endl;
+	for (int i = 0; i < 500; i++) {
+		int monster = game.registry.CreateEntity();
+
+		game.registry.position[monster].x = rand() % 800;
+		game.registry.position[monster].y = rand() % 600;
+		game.registry.bounds[monster] = { (int)(game.registry.position[monster].x), (int)(game.registry.position[monster].y), 32, 32 };
+		game.registry.sprites[monster] = game.assets.GetTexture("skull");
 	}
 
 	game.running = 1;
@@ -36,7 +43,7 @@ int main(int argc, char* argv[]) {
 		game.Update(game.dt);
 
 		game.ClearScreen(255, 0, 0, 255);
-		SDL_RenderCopy(game.renderer, game.registry.sprites[player], NULL, &game.registry.bounds[player]);
+		game.RenderSystem();
 		game.PresentScreen();
 
 		Uint64 workingTime = SDL_GetTicks64() - currentTime;
