@@ -19,6 +19,7 @@ int main(int argc, char* argv[]) {
 
 	game.assets.AddTexture(game.renderer, "player", "sprites/fb5.png");
 	game.assets.AddTexture(game.renderer, "skull", "sprites/fb225.png");
+	game.assets.AddTexture(game.renderer, "projectile", "sprites/fa212.png");
 	game.registry.sprites[player] = game.assets.GetTexture("player");
 
 	for (int i = 0; i < 500; i++) {
@@ -28,6 +29,7 @@ int main(int argc, char* argv[]) {
 		game.registry.position[monster].y = rand() % 600;
 		game.registry.bounds[monster] = { (int)(game.registry.position[monster].x), (int)(game.registry.position[monster].y), 32, 32 };
 		game.registry.sprites[monster] = game.assets.GetTexture("skull");
+		game.registry.hasAIController[monster] = true;
 	}
 
 	game.running = 1;
@@ -40,7 +42,9 @@ int main(int argc, char* argv[]) {
 		game.ProcessEvent();
 
 		game.PlayerInputSystem(game.dt);
-		game.Update(game.dt);
+		game.AutoShootSystem();
+		game.PhysicsSystem(game.dt);
+		game.LifeCycleSystem();
 
 		game.ClearScreen(255, 0, 0, 255);
 		game.RenderSystem();
@@ -52,7 +56,7 @@ int main(int argc, char* argv[]) {
 		}
 
 		//std::cout << "FPS: " << (1000.0f / (SDL_GetTicks64() - frameStart)) << std::endl;
-		std::cout << "Player Pos: (" << game.registry.position[player].x << ", " << game.registry.position[player].y << ")" << std::endl;
+		//std::cout << "Player Pos: (" << game.registry.position[player].x << ", " << game.registry.position[player].y << ")" << std::endl;
 
 	}
 
