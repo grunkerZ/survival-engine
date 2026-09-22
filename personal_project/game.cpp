@@ -40,6 +40,9 @@ int main(int argc, char* argv[]) {
 		game.dt = (currentTime - lastTime) / 1000.0f;
 		lastTime = currentTime;
 
+		game.camera.x = game.registry.position[player].x - (SCREEN_W/2.0f);
+		game.camera.y = game.registry.position[player].y - (SCREEN_H/2.0f);
+
 		game.ProcessEvent();
 
 		game.PlayerInputSystem(game.dt);
