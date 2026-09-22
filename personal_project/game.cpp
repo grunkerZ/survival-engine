@@ -16,7 +16,9 @@ int main(int argc, char* argv[]) {
 
 	Uint64 lastTime = SDL_GetTicks64();
 
-	game.registry.sprites[player] = IMG_LoadTexture(game.renderer, "sprites/fb5.png");
+	game.assets.AddTexture(game.renderer, "player", "sprites/fb5.png");
+	game.registry.sprites[player] = game.assets.GetTexture("player");
+
 	if (game.registry.sprites[player] == nullptr) {
 		std::cout << "ERROR: Texture failed to load: " << IMG_GetError() << std::endl;
 	}

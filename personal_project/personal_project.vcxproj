@@ -133,6 +133,7 @@
     <ClCompile Include="Engine.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AssetManager.h" />
     <ClInclude Include="ECS.h" />
     <ClInclude Include="Engine.h" />
   </ItemGroup>
