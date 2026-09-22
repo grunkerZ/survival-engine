@@ -8,6 +8,7 @@ int main(int argc, char* argv[]) {
 	game.registry.position[player].x = 0;
 	game.registry.position[player].y = 300;
 	game.registry.bounds[player] = { (int)(game.registry.position[player].x), (int)(game.registry.position[player].y), 32, 32 };
+	game.registry.hasPlayerController[player] = true;
 
 	if (game.Init(SDL_INIT_VIDEO) < 0) {
 		return -1;
@@ -29,6 +30,7 @@ int main(int argc, char* argv[]) {
 
 		game.ProcessEvent();
 
+		game.PlayerInputSystem(game.dt);
 		game.Update(game.dt);
 
 		game.ClearScreen(255, 0, 0, 255);
