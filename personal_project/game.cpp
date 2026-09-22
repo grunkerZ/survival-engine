@@ -30,6 +30,7 @@ int main(int argc, char* argv[]) {
 		game.registry.bounds[monster] = { (int)(game.registry.position[monster].x), (int)(game.registry.position[monster].y), 32, 32 };
 		game.registry.sprites[monster] = game.assets.GetTexture("skull");
 		game.registry.hasAIController[monster] = true;
+		game.registry.health[monster] = 2;
 	}
 
 	game.running = 1;
@@ -43,7 +44,9 @@ int main(int argc, char* argv[]) {
 
 		game.PlayerInputSystem(game.dt);
 		game.AutoShootSystem();
+		game.EnemyAISystem();
 		game.PhysicsSystem(game.dt);
+		game.CollisionSystem();
 		game.LifeCycleSystem();
 
 		game.ClearScreen(255, 0, 0, 255);
