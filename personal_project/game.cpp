@@ -22,17 +22,6 @@ int main(int argc, char* argv[]) {
 	game.assets.AddTexture(game.renderer, "projectile", "sprites/fa212.png");
 	game.registry.sprites[player] = game.assets.GetTexture("player");
 
-	for (int i = 0; i < 500; i++) {
-		int monster = game.registry.CreateEntity();
-
-		game.registry.position[monster].x = rand() % 800;
-		game.registry.position[monster].y = rand() % 600;
-		game.registry.bounds[monster] = { (int)(game.registry.position[monster].x), (int)(game.registry.position[monster].y), 32, 32 };
-		game.registry.sprites[monster] = game.assets.GetTexture("skull");
-		game.registry.hasAIController[monster] = true;
-		game.registry.health[monster] = 2;
-	}
-
 	game.running = 1;
 
 	while (game.running) {
@@ -45,6 +34,7 @@ int main(int argc, char* argv[]) {
 
 		game.ProcessEvent();
 
+		game.EnemySpawnerSystem(game.dt);
 		game.PlayerInputSystem(game.dt);
 		game.AutoShootSystem();
 		game.EnemyAISystem();
