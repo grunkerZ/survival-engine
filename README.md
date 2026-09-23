@@ -1,3 +1,5 @@
+![Demo](https://github.com/user-attachments/assets/71c90252-317c-4488-ad30-a1eb31287891)
+
 A custom-built 2D Game Engine and physics simulation written from scratch in C++ and SDL2. This project was built to explore Data-Oriented Design (DOD) and stress-test custom engine architecture against massive entity counts.
 
  ## Core Architecture & Design Document Rules
