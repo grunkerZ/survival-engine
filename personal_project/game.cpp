@@ -39,6 +39,7 @@ int main(int argc, char* argv[]) {
 		game.AutoShootSystem();
 		game.EnemyAISystem();
 		game.PhysicsSystem(game.dt);
+		game.UpdateSpatialGrid();
 		game.CollisionSystem();
 		game.LifeCycleSystem();
 
