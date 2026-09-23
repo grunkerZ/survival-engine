@@ -20,6 +20,7 @@ int main(int argc, char* argv[]) {
 	game.assets.AddTexture(game.renderer, "player", "sprites/fb5.png");
 	game.assets.AddTexture(game.renderer, "skull", "sprites/fb225.png");
 	game.assets.AddTexture(game.renderer, "projectile", "sprites/fa212.png");
+	game.assets.AddTexture(game.renderer, "xp", "sprites/fb161.png");
 	game.registry.sprites[player] = game.assets.GetTexture("player");
 
 	game.running = 1;
