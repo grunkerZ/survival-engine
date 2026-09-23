@@ -29,6 +29,13 @@ int main(int argc, char* argv[]) {
 		Uint64 currentTime = SDL_GetTicks64();
 		game.dt = (currentTime - lastTime) / 1000.0f;
 		lastTime = currentTime;
+		game.fpsTimer += game.dt;
+		game.frameCount++;
+		if (game.fpsTimer >= 1.0f) {
+			game.currentFps = game.frameCount;
+			game.frameCount = 0;
+			game.fpsTimer = 0;
+		}
 
 		game.camera.x = game.registry.position[player].x - (SCREEN_W/2.0f);
 		game.camera.y = game.registry.position[player].y - (SCREEN_H/2.0f);
@@ -46,6 +53,7 @@ int main(int argc, char* argv[]) {
 
 		game.ClearScreen(255, 0, 0, 255);
 		game.RenderSystem();
+		game.RenderUI();
 		game.PresentScreen();
 
 		Uint64 workingTime = SDL_GetTicks64() - currentTime;
