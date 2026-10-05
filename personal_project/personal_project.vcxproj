@@ -130,13 +130,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp" />
-    <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="System_Core.cpp" />
+    <ClCompile Include="System_AI.cpp" />
+    <ClCompile Include="System_Combat.cpp" />
+    <ClCompile Include="System_Physics.cpp" />
+    <ClCompile Include="System_Render.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetManager.h" />
     <ClInclude Include="ECS.h" />
-    <ClInclude Include="Engine.h" />
+    <ClInclude Include="GameData.h" />
     <ClInclude Include="MathUtils.h" />
+    <ClInclude Include="System.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

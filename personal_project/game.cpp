@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Engine.h"
+#include "GameData.h"
 #include <cstdlib>
 
 GameEngine game;
@@ -24,6 +24,7 @@ int main(int argc, char* argv[]) {
 	game.registry.sprites[player] = game.assets.GetTexture("player");
 
 	game.running = 1;
+	game.difficulty = 1;
 
 	while (game.running) {
 		Uint64 currentTime = SDL_GetTicks64();
