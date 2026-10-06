@@ -12,65 +12,41 @@ const int SCREEN_W = 1366;
 const int SCREEN_H = 768;
 const int CELL_SIZE = 64;
 
-struct GameEngine {
+struct CollisionEvent {
+	int entityA;
+	int entityB;
+};
+
+struct EngineContext {
 	SDL_Window* window = nullptr;
 	SDL_Renderer* renderer = nullptr;
-	float dt;
-	bool running = 0;
-	float fireCooldown=0.0f;
-	float waveCooldown = 0.0f;
-	int difficulty = 0;
-	int playerXP = 0;
-	int playerLvl = 1;
-	int xpToNextLvl = 5;
-	float maxFireCooldown = 1.0f;
+	bool running = true;
+	float dt = 0.0f;
 	float fpsTimer = 0.0f;
 	int frameCount = 0;
 	int currentFps = 0;
-	float enemyAmount = 0;
-
-
-	std::map<std::pair<int, int>, std::vector<int>> spatialGrid;
-
-	Transform camera;
-
-	Registry registry;
-
 	AssetManager assets;
-
 	TTF_Font* debugFont = nullptr;
-
-	int Init(Uint32 flags);
-
-	void ProcessEvent();
-
-	void ClearScreen(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
-
-	void PresentScreen();
-
-	void Quit();
-
-	void PhysicsSystem(float dt);
-
-	void PlayerInputSystem(float dt);
-
-	void RenderSystem();
-
-	void AutoShootSystem();
-
-	void LifeCycleSystem();
-
-	void CollisionSystem();
-
-	void EnemyAISystem();
-
-	void EnemySpawnerSystem(float dt);
-
-	void UpdateSpatialGrid();
-	
-	void RenderUI();
+	SDL_Texture* textureMap[ET_END] = { nullptr };
 };
 
+struct GameState {
+	int playerID = -1;
+	int playerXP = 0;
+	int playerLvl = 1;
+	int xpToNextLvl = 5;
+	float fireTimer = 0.0f;
+	float maxFireCooldown = 1.0f;
+	float waveCooldown = 0.0f;
+	float difficulty = 1.0f;
+	float enemyAmount = 0.0f;
+};
 
+struct WorldData {
+	Registry registry;
+	std::map<std::pair<int, int>, std::vector<int>> spatialGrid;
+	Transform camera;
+	std::vector<CollisionEvent> collisionEvents;
+};
 
 #endif //__ENGINE_H__

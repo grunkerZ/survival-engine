@@ -1,35 +1,38 @@
-#include "GameData.h"
+#include "System.h"
 
-void GameEngine::RenderSystem() {
+void RenderSystem(WorldData& world, EngineContext& engine) {
 	for (int i = 0; i < MAX_ENTITIES; i++) {
-		if (registry.isActive[i] && (registry.sprites[i] != nullptr)) {
-			SDL_Rect renderArea = registry.bounds[i];
-			renderArea.x = (int)(registry.position[i].x - camera.x);
-			renderArea.y = (int)(registry.position[i].y - camera.y);
-			SDL_RenderCopy(renderer, registry.sprites[i], NULL, &renderArea);
+		if (world.registry.isActive[i]) {
+			SDL_Texture* tex = engine.textureMap[world.registry.entityType[i]];
+			if(tex != nullptr){
+				SDL_Rect renderArea = world.registry.bounds[i];
+				renderArea.x = (int)(world.registry.position[i].x - world.camera.x);
+				renderArea.y = (int)(world.registry.position[i].y - world.camera.y);
+				SDL_RenderCopy(engine.renderer, tex, NULL, &renderArea);
+			}
 		}
 	}
 }
 
-void GameEngine::ClearScreen(Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
-	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+void ClearScreen(SDL_Renderer* renderer, Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
+	SDL_SetRenderDrawColor(renderer, r, g, b, a);
 	SDL_RenderClear(renderer);
 }
 
-void GameEngine::PresentScreen() {
+void PresentScreen(SDL_Renderer* renderer) {
 	SDL_RenderPresent(renderer);
 }
 
-void GameEngine::RenderUI() {
-	std::string uiText = "FPS: " + std::to_string(currentFps) + " | Entities: " + std::to_string(registry.activeEntityCount);
+void RenderUI(EngineContext& engine, Registry& registry) {
+	std::string uiText = "FPS: " + std::to_string(engine.currentFps) + " | Entities: " + std::to_string(registry.activeEntityCount);
 
 	SDL_Color white = { 255, 255, 255, 255 };
-	SDL_Surface* surface = TTF_RenderText_Solid(debugFont, uiText.c_str(), white);
+	SDL_Surface* surface = TTF_RenderText_Solid(engine.debugFont, uiText.c_str(), white);
 
-	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_Texture* texture = SDL_CreateTextureFromSurface(engine.renderer, surface);
 
 	SDL_Rect uiBounds = { 10, 10, surface->w, surface->h };
-	SDL_RenderCopy(renderer, texture, NULL, &uiBounds);
+	SDL_RenderCopy(engine.renderer, texture, NULL, &uiBounds);
 
 	SDL_FreeSurface(surface);
 	SDL_DestroyTexture(texture);

@@ -6,6 +6,15 @@
 
 const int MAX_ENTITIES = 4096;
 
+enum EntityType {
+	ET_NONE,
+	ET_PLAYER,
+	ET_GRUNT,
+	ET_BULLET,
+	ET_XP,
+	ET_END
+};
+
 struct Transform {
 	float x, y;
 };
@@ -21,10 +30,10 @@ struct Registry {
 	bool isProjectile[MAX_ENTITIES];
 	bool isExperience[MAX_ENTITIES];
 	int health[MAX_ENTITIES];
+	int entityType[MAX_ENTITIES];
 	Transform position[MAX_ENTITIES];
 	Velocity velocity[MAX_ENTITIES];
 	SDL_Rect bounds[MAX_ENTITIES];
-	SDL_Texture* sprites[MAX_ENTITIES];
 	int activeEntityCount = 0;
 
 	int CreateEntity() {

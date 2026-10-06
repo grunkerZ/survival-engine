@@ -1,61 +1,77 @@
 #include <iostream>
-#include "GameData.h"
+#include "System.h"
+#include "EntityFactory.h"
 #include <cstdlib>
 
-GameEngine game;
+EngineContext engine;
+GameState state;
+WorldData world;
 
 int main(int argc, char* argv[]) {
-	int player = game.registry.CreateEntity();
-	game.registry.position[player].x = 0;
-	game.registry.position[player].y = 300;
-	game.registry.bounds[player] = { (int)(game.registry.position[player].x), (int)(game.registry.position[player].y), 32, 32 };
-	game.registry.hasPlayerController[player] = true;
+	int player = world.registry.CreateEntity();
+	world.registry.position[player].x = 0;
+	world.registry.position[player].y = 300;
+	world.registry.bounds[player] = { (int)(world.registry.position[player].x), (int)(world.registry.position[player].y), 32, 32 };
+	world.registry.hasPlayerController[player] = true;
+	world.registry.entityType[player] = ET_PLAYER;
+	state.playerID = player;
 
-	if (game.Init(SDL_INIT_VIDEO) < 0) {
+	if (Init(engine, SDL_INIT_VIDEO) < 0) {
 		return -1;
 	}
 
 	Uint64 lastTime = SDL_GetTicks64();
 
-	game.assets.AddTexture(game.renderer, "player", "sprites/fb5.png");
-	game.assets.AddTexture(game.renderer, "skull", "sprites/fb225.png");
-	game.assets.AddTexture(game.renderer, "projectile", "sprites/fa212.png");
-	game.assets.AddTexture(game.renderer, "xp", "sprites/fb161.png");
-	game.registry.sprites[player] = game.assets.GetTexture("player");
+	engine.assets.AddTexture(engine.renderer, "player", "sprites/fb5.png");
+	engine.assets.AddTexture(engine.renderer, "skull", "sprites/fb225.png");
+	engine.assets.AddTexture(engine.renderer, "projectile", "sprites/fa212.png");
+	engine.assets.AddTexture(engine.renderer, "xp", "sprites/fb161.png");
+	engine.textureMap[ET_PLAYER] = engine.assets.GetTexture("player");
+	engine.textureMap[ET_GRUNT] = engine.assets.GetTexture("skull");
+	engine.textureMap[ET_BULLET] = engine.assets.GetTexture("projectile");
+	engine.textureMap[ET_XP] = engine.assets.GetTexture("xp");
 
-	game.running = 1;
-	game.difficulty = 1;
+	engine.running = 1;
+	state.difficulty = 1;
 
-	while (game.running) {
+	while (engine.running) {
 		Uint64 currentTime = SDL_GetTicks64();
-		game.dt = (currentTime - lastTime) / 1000.0f;
+		engine.dt = (currentTime - lastTime) / 1000.0f;
 		lastTime = currentTime;
-		game.fpsTimer += game.dt;
-		game.frameCount++;
-		if (game.fpsTimer >= 1.0f) {
-			game.currentFps = game.frameCount;
-			game.frameCount = 0;
-			game.fpsTimer = 0;
+		engine.fpsTimer += engine.dt;
+		engine.frameCount++;
+		if (engine.fpsTimer >= 1.0f) {
+			engine.currentFps = engine.frameCount;
+			engine.frameCount = 0;
+			engine.fpsTimer = 0;
 		}
 
-		game.camera.x = game.registry.position[player].x - (SCREEN_W/2.0f);
-		game.camera.y = game.registry.position[player].y - (SCREEN_H/2.0f);
+		world.camera.x = world.registry.position[player].x - (SCREEN_W/2.0f);
+		world.camera.y = world.registry.position[player].y - (SCREEN_H/2.0f);
 
-		game.ProcessEvent();
+		ProcessEvent(engine);
+		
+		PlayerInputSystem(world.registry);
+		EnemyAISystem(world.registry);
+		PlayerAutoShootSystem(state, world.registry, engine.dt);
+		EnemySpawnerSystem(world, state, engine.dt);
+		MagnetSystem(world.registry, state.playerID);
 
-		game.EnemySpawnerSystem(game.dt);
-		game.PlayerInputSystem(game.dt);
-		game.AutoShootSystem();
-		game.EnemyAISystem();
-		game.PhysicsSystem(game.dt);
-		game.UpdateSpatialGrid();
-		game.CollisionSystem();
-		game.LifeCycleSystem();
+		PhysicsSystem(world.registry, engine.dt);
 
-		game.ClearScreen(255, 0, 0, 255);
-		game.RenderSystem();
-		game.RenderUI();
-		game.PresentScreen();
+		UpdateSpatialGrid(world);
+		CollisionDetectionSystem(world);
+
+		CombatResolutionSystem(world);
+		SeperationResolutionSystem(world);
+		PickupResolutionSystem(world, state.playerXP);
+
+		LifeCycleSystem(world);
+
+		ClearScreen(engine.renderer, 30, 30, 30, 255);
+		RenderSystem(world, engine);
+		RenderUI(engine, world.registry);
+		PresentScreen(engine.renderer);
 
 		Uint64 workingTime = SDL_GetTicks64() - currentTime;
 		if (workingTime < 16.6f) {
@@ -67,7 +83,7 @@ int main(int argc, char* argv[]) {
 
 	}
 
-	game.Quit();
+	Quit(engine);
 
 	return 0;
 }

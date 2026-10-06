@@ -129,16 +129,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="EntityFactory.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="System_Core.cpp" />
     <ClCompile Include="System_AI.cpp" />
     <ClCompile Include="System_Combat.cpp" />
     <ClCompile Include="System_Physics.cpp" />
+    <ClCompile Include="System_Player.cpp" />
     <ClCompile Include="System_Render.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetManager.h" />
     <ClInclude Include="ECS.h" />
+    <ClInclude Include="EntityFactory.h" />
     <ClInclude Include="GameData.h" />
     <ClInclude Include="MathUtils.h" />
     <ClInclude Include="System.h" />
