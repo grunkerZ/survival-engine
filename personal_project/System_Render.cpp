@@ -6,8 +6,8 @@ void RenderSystem(WorldData& world, EngineContext& engine) {
 			SDL_Texture* tex = engine.textureMap[world.registry.entityType[i]];
 			if(tex != nullptr){
 				SDL_Rect renderArea = world.registry.bounds[i];
-				renderArea.x = (int)(world.registry.position[i].x - world.camera.x);
-				renderArea.y = (int)(world.registry.position[i].y - world.camera.y);
+				renderArea.x -= world.camera.x;
+				renderArea.y -= world.camera.y;
 				SDL_RenderCopy(engine.renderer, tex, NULL, &renderArea);
 			}
 		}

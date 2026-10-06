@@ -8,5 +8,7 @@ int SpawnGrunt(Registry& registry, float x, float y);
 
 int SpawnBullet(Registry& registry, float x, float y);
 
+int SpawnXP(Registry& registry, float x, float y);
+
 
 #endif // !__ENTITY_FACTORY_H__

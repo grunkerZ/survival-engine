@@ -26,10 +26,10 @@ void MagnetSystem(Registry& registry, int playerId) {
 	for (int i = 0; i < MAX_ENTITIES; i++) {
 		if (registry.isExperience[i]) {
 			float dist = GetDistance(registry.position[i].x, registry.position[i].y, registry.position[playerId].x, registry.position[playerId].y);
-			if (dist < 150) {
+			if (dist < 50) {
 				Vector2D dir = GetDirection(registry.position[playerId].x, registry.position[playerId].y, registry.position[i].x, registry.position[i].y);
-				registry.velocity[i].dx += (1.5f * dir.x);
-				registry.velocity[i].dy += (1.5f * dir.y);
+				registry.position[i].x += (3.0f * dir.x);
+				registry.position[i].y += (3.0f * dir.y);
 			}
 		}
 	}

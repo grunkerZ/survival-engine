@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include "MathUtils.h"
 #include <cmath>
+#include "EntityFactory.h"
 
 void Quit(EngineContext& engine) {
 	engine.assets.Clear();
@@ -93,19 +94,13 @@ void LifeCycleSystem(WorldData& world) {
 						world.registry.position[i].y = bottom;
 					}
 
-					world.registry.bounds[i] = { (int)(world.registry.position[i].x), (int)(world.registry.position[i].y), 32, 32 };
-
 					std::cout << "Monster Respawned: Off Screen" << std::endl;
 				}
 			}
 		}
 
 		if (world.registry.health[i] <= 0 && world.registry.hasAIController[i]) {
-			int xp = world.registry.CreateEntity();
-			world.registry.position[xp] = world.registry.position[i];
-			world.registry.bounds[xp] = { (int)(world.registry.position[xp].x), (int)(world.registry.position[xp].y), 16,16 };
-			world.registry.entityType[xp] = ET_XP;
-			world.registry.isExperience[xp] = true;
+			SpawnXP(world.registry, world.registry.position[i].x, world.registry.position[i].y);
 			world.registry.DestroyEntity(i);
 		}
 	}

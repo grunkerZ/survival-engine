@@ -6,8 +6,8 @@ void PhysicsSystem(Registry& registry, float dt) {
 		if (registry.isActive[i]) {
 			registry.position[i].x += registry.velocity[i].dx * dt;
 			registry.position[i].y += registry.velocity[i].dy * dt;
-			registry.bounds[i].y = registry.position[i].y;
-			registry.bounds[i].x = registry.position[i].x;
+			registry.bounds[i].y = registry.position[i].y - (registry.bounds[i].h / 2.0f);
+			registry.bounds[i].x = registry.position[i].x - (registry.bounds[i].w / 2.0f);
 		}
 	}
 }
@@ -17,21 +17,29 @@ void PlayerInputSystem(Registry& registry) {
 		if (registry.isActive[i] && registry.hasPlayerController[i]) {
 			const Uint8* state = SDL_GetKeyboardState(NULL);
 
+			float dx = 0;
+			float dy = 0;
 			registry.velocity[i].dy = 0;
 			registry.velocity[i].dx = 0;
 
 			if (state[SDL_SCANCODE_W]) {
-				registry.velocity[i].dy -= 100;
+				dy -= 1;
 			}
 			if (state[SDL_SCANCODE_A]) {
-				registry.velocity[i].dx -= 100;
+				dx -= 1;
 			}
 			if (state[SDL_SCANCODE_S]) {
-				registry.velocity[i].dy += 100;
+				dy += 1;
 			}
 			if (state[SDL_SCANCODE_D]) {
-				registry.velocity[i].dx += 100;
+				dx += 1;
 			}
+
+			if (dy || dx) {
+				Normalize(dx, dy);
+			}
+			registry.velocity[i].dx += (dx * 100);
+			registry.velocity[i].dy += (dy * 100);
 		}
 	}
 }

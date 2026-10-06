@@ -15,6 +15,8 @@ int main(int argc, char* argv[]) {
 	world.registry.hasPlayerController[player] = true;
 	world.registry.entityType[player] = ET_PLAYER;
 	state.playerID = player;
+	world.registry.bounds[player].y = world.registry.position[player].y - (world.registry.bounds[player].h / 2.0f);
+	world.registry.bounds[player].x = world.registry.position[player].x - (world.registry.bounds[player].w / 2.0f);
 
 	if (Init(engine, SDL_INIT_VIDEO) < 0) {
 		return -1;
