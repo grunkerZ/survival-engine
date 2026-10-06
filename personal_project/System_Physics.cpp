@@ -40,7 +40,7 @@ void CollisionDetectionSystem(WorldData& world) {
 	world.collisionEvents.clear();
 
 	for (int i = 0; i < MAX_ENTITIES; i++) {
-		if (world.registry.isActive[i]) continue;
+		if (!world.registry.isActive[i]) continue;
 
 		int row = (int)(world.registry.position[i].y / CELL_SIZE);
 		int col = (int)(world.registry.position[i].x / CELL_SIZE);
