@@ -39,8 +39,8 @@ void UpdateSpatialGrid(WorldData& world) {
 }
 
 void UpdateMapSystem(WorldData& world) {
-	int cam_center_x = world.camera.x + (SCREEN_W / 2.0f);
-	int cam_center_y = world.camera.y + (SCREEN_H / 2.0f);
+	float cam_center_x = world.camera.x + (SCREEN_W / 2.0f);
+	float cam_center_y = world.camera.y + (SCREEN_H / 2.0f);
 	int chunk_cam_x = (int)floor(cam_center_x / (CHUNK_SIZE * CELL_SIZE));
 	int chunk_cam_y = (int)floor(cam_center_y / (CHUNK_SIZE * CELL_SIZE));
 
@@ -48,9 +48,23 @@ void UpdateMapSystem(WorldData& world) {
 		for (int x = -2; x <= 2; x++) {
 			std::pair<int, int> checkPos = { chunk_cam_x + x, chunk_cam_y + y };
 			if (world.loadedChunks.count(checkPos) == 0) {
-				int r = rand() % world.availablePrefabs.size();
+				int r = 0;
+				int chunkX = checkPos.first;
+				int chunkY = checkPos.second;
+				bool isHorizontalRoad = (chunkX % 3 == 0);
+				bool isVerticalRoad = (chunkY % 3 == 0);
+
+				if (isVerticalRoad && isHorizontalRoad) {
+					r = 3;
+				}
+				else if (isVerticalRoad) {
+					r = 1;
+				}
+				else if (isHorizontalRoad) {
+					r = 2;
+				}
+
 				world.loadedChunks[checkPos] = r;
-				std::cout << "Chunk " << checkPos.first << ", " << checkPos.second << " generated prefab id: " << r << std::endl;
 			}
 		}
 	}

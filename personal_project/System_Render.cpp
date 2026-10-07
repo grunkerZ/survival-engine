@@ -25,15 +25,15 @@ void RenderUI(EngineContext& engine, Registry& registry) {
 }
 
 void RenderMap(WorldData& world, EngineContext& engine) {
-	int cam_center_x = world.camera.x + (SCREEN_W / 2.0f);
-	int cam_center_y = world.camera.y + (SCREEN_H / 2.0f);
+	float cam_center_x = world.camera.x + (SCREEN_W / 2.0f);
+	float cam_center_y = world.camera.y + (SCREEN_H / 2.0f);
 	int chunk_cam_x = (int)floor(cam_center_x / (CHUNK_SIZE * CELL_SIZE));
 	int chunk_cam_y = (int)floor(cam_center_y / (CHUNK_SIZE * CELL_SIZE));
 
 	for (int y = -2; y <= 2; y++) {
 		for (int x = -2; x <= 2; x++) {
 			std::pair<int, int> checkPos = { chunk_cam_x + x, chunk_cam_y + y };
-			ChunkPrefab prefab = world.availablePrefabs[world.loadedChunks[checkPos]];
+			const ChunkPrefab& prefab = world.availablePrefabs[world.loadedChunks[checkPos]];
 			int chunkWorldX = checkPos.first * (CHUNK_SIZE * CELL_SIZE);
 			int chunkWorldY = checkPos.second * (CHUNK_SIZE * CELL_SIZE);
 			
