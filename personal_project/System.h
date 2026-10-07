@@ -18,7 +18,7 @@ void PresentScreen(SDL_Renderer* renderer);
 void RenderUI(WorldData& world, EngineContext& engine, Registry& registry, GameState& state, bool debug);
 void Quit(EngineContext& engine);
 int Init(EngineContext& engine, Uint32 flags);
-void ProcessEvent(EngineContext& engine);
+void ProcessEvent(EngineContext& engine, GameState& state);
 void LifeCycleSystem(WorldData& world);
 void UpdateSpatialGrid(WorldData& world);
 void EnemyAISystem(Registry& registry);

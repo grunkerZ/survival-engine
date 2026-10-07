@@ -69,7 +69,7 @@ int main(int argc, char* argv[]) {
 			state.pendingUpgrades = 0;
 		}
 
-		ProcessEvent(engine);
+		ProcessEvent(engine, state);
 		
 		if(!state.paused) {
 			PlayerInputSystem(world.registry, state);
