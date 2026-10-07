@@ -46,6 +46,7 @@ struct GameState {
 	float waveCooldown = 0.0f;
 	float difficulty = 1.0f;
 	float enemyAmount = 0.0f;
+	bool paused = false;
 };
 
 struct WorldData {

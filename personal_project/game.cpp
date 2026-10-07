@@ -57,25 +57,35 @@ int main(int argc, char* argv[]) {
 		world.camera.x = world.registry.position[player].x - (SCREEN_W/2.0f);
 		world.camera.y = world.registry.position[player].y - (SCREEN_H/2.0f);
 
-		ProcessEvent(engine);
+		if (state.pendingUpgrades > 0) {
+			state.paused = true;
+		}
+		else {
+			state.paused = false;
+			state.pendingUpgrades = 0;
+		}
+
+		ProcessEvent(engine, state);
 		
-		PlayerInputSystem(world.registry);
-		EnemyAISystem(world.registry);
-		PlayerAutoShootSystem(state, world.registry, engine.dt);
-		EnemySpawnerSystem(world, state, engine.dt);
-		MagnetSystem(world.registry, state.playerID);
+		if(!state.paused) {
+			PlayerInputSystem(world.registry);
+			EnemyAISystem(world.registry);
+			PlayerAutoShootSystem(state, world.registry, engine.dt);
+			EnemySpawnerSystem(world, state, engine.dt);
+			MagnetSystem(world.registry, state.playerID);
 
-		PhysicsSystem(world.registry, engine.dt);
+			PhysicsSystem(world.registry, engine.dt);
 
-		UpdateMapSystem(world);
-		UpdateSpatialGrid(world);
-		CollisionDetectionSystem(world);
+			UpdateMapSystem(world);
+			UpdateSpatialGrid(world);
+			CollisionDetectionSystem(world);
 
-		CombatResolutionSystem(world);
-		SeperationResolutionSystem(world);
-		PickupResolutionSystem(world, state);
+			CombatResolutionSystem(world);
+			SeperationResolutionSystem(world);
+			PickupResolutionSystem(world, state);
 
-		LifeCycleSystem(world);
+			LifeCycleSystem(world);
+		}
 
 		ClearScreen(engine.renderer, 30, 30, 30, 255);
 		RenderSystem(world, engine);
