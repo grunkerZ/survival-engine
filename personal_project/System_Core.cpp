@@ -50,7 +50,7 @@ int Init(EngineContext& engine, Uint32 flags) {
 	return 0;
 }
 
-void ProcessEvent(EngineContext& engine, GameState& state) {
+void ProcessEvent(EngineContext& engine, GameState& state, WorldData& world) {
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) {
 		if (event.type == SDL_QUIT) {
@@ -67,7 +67,7 @@ void ProcessEvent(EngineContext& engine, GameState& state) {
 				for (int i = 0; i < state.currentUpgradeChoices.size(); i++) {
 					SDL_Rect upgradeBox = { x_buffer, 100 + (100 + y_buffer * i), SCREEN_W - (2 * x_buffer), 100 };
 					if (SDL_PointInRect(&p, &upgradeBox)) {
-
+						ApplyUpgrade(state.currentUpgradeChoices[i], state, world);
 						state.pendingUpgrades--;
 						state.currentUpgradeChoices.clear();
 						break;

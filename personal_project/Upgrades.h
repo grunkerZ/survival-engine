@@ -33,6 +33,15 @@ struct Item {
 	std::vector<ItemLevelData> levels;
 };
 
+struct ActiveWeapon {
+	ItemID id;
+	float baseCD = 1.0f;
+	int baseDmg = 1;
+	float baseArea = 1.0f;
+	int baseAmt = 1;
+	float fireTimer = 0.0f;
+};
+
 void CreateItem(Item& item, ItemID id, std::string name, ItemCategory category, int maxLevel);
 
 #endif //__UPGRADES_H__

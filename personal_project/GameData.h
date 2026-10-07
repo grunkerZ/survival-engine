@@ -12,6 +12,7 @@ const int SCREEN_W = 1366;
 const int SCREEN_H = 768;
 const int CELL_SIZE = 64;
 const int CHUNK_SIZE = 10;
+const int MAX_SLOTS = 6;
 
 struct ChunkPrefab {
 	int tiles[CHUNK_SIZE][CHUNK_SIZE];
@@ -50,13 +51,13 @@ struct GameState {
 	int inventoryLevels[ITEM_MAX] = { 0 };
 	int currentWeaponCount = 0;
 	int currentPassiveCount = 0;
-	const int MAX_SLOTS = 6;
 	float playerSpeed = 100.0f;
 	int playerDamage = 1;
 	float playerArea = 1.0f;
 	int playerAmount = 1;
 	float playerCooldownMod = 0.0f;
 	std::vector<ItemID> currentUpgradeChoices;
+	ActiveWeapon equippedWeapons[MAX_SLOTS];
 };
 
 struct WorldData {

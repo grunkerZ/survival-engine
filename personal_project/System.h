@@ -18,7 +18,7 @@ void PresentScreen(SDL_Renderer* renderer);
 void RenderUI(WorldData& world, EngineContext& engine, Registry& registry, GameState& state, bool debug);
 void Quit(EngineContext& engine);
 int Init(EngineContext& engine, Uint32 flags);
-void ProcessEvent(EngineContext& engine, GameState& state);
+void ProcessEvent(EngineContext& engine, GameState& state, WorldData& world);
 void LifeCycleSystem(WorldData& world);
 void UpdateSpatialGrid(WorldData& world);
 void EnemyAISystem(Registry& registry);
@@ -30,5 +30,6 @@ void LevelUp(GameState& state);
 void InitUpgrades(WorldData& world);
 std::vector<ItemID> RollUpgrades(GameState& state, WorldData& world);
 void RenderUpgradeMenu(WorldData& world, GameState& state, EngineContext& engine);
+void ApplyUpgrade(ItemID id, GameState& state, WorldData& world);
 
 #endif // __SYSTEM_H__
