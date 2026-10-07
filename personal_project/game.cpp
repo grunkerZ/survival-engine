@@ -25,6 +25,7 @@ int main(int argc, char* argv[]) {
 	}
 
 	InitMapPrefabs(world);
+	InitUpgrades(world);
 
 	Uint64 lastTime = SDL_GetTicks64();
 
@@ -59,16 +60,19 @@ int main(int argc, char* argv[]) {
 
 		if (state.pendingUpgrades > 0) {
 			state.paused = true;
+			if (state.currentUpgradeChoices.empty()) {
+				state.currentUpgradeChoices = RollUpgrades(state, world);
+			}
 		}
 		else {
 			state.paused = false;
 			state.pendingUpgrades = 0;
 		}
 
-		ProcessEvent(engine, state);
+		ProcessEvent(engine);
 		
 		if(!state.paused) {
-			PlayerInputSystem(world.registry);
+			PlayerInputSystem(world.registry, state);
 			EnemyAISystem(world.registry);
 			PlayerAutoShootSystem(state, world.registry, engine.dt);
 			EnemySpawnerSystem(world, state, engine.dt);
@@ -80,7 +84,7 @@ int main(int argc, char* argv[]) {
 			UpdateSpatialGrid(world);
 			CollisionDetectionSystem(world);
 
-			CombatResolutionSystem(world);
+			CombatResolutionSystem(world, state);
 			SeperationResolutionSystem(world);
 			PickupResolutionSystem(world, state);
 
@@ -89,7 +93,7 @@ int main(int argc, char* argv[]) {
 
 		ClearScreen(engine.renderer, 30, 30, 30, 255);
 		RenderSystem(world, engine);
-		RenderUI(engine, world.registry, state, true);
+		RenderUI(world, engine, world.registry, state, true);
 		PresentScreen(engine.renderer);
 
 		Uint64 workingTime = SDL_GetTicks64() - currentTime;

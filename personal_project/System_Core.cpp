@@ -50,14 +50,11 @@ int Init(EngineContext& engine, Uint32 flags) {
 	return 0;
 }
 
-void ProcessEvent(EngineContext& engine, GameState& state) {
+void ProcessEvent(EngineContext& engine) {
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) {
 		if (event.type == SDL_QUIT) {
 			engine.running = 0;
-		}
-		if (event.type == SDL_SCANCODE_SPACE) {
-			state.pendingUpgrades--;
 		}
 	}
 }

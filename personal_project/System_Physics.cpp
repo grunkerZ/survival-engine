@@ -12,34 +12,34 @@ void PhysicsSystem(Registry& registry, float dt) {
 	}
 }
 
-void PlayerInputSystem(Registry& registry) {
+void PlayerInputSystem(Registry& registry, GameState& state) {
 	for (int i = 0; i < MAX_ENTITIES; i++) {
 		if (registry.isActive[i] && registry.hasPlayerController[i]) {
-			const Uint8* state = SDL_GetKeyboardState(NULL);
+			const Uint8* key_state = SDL_GetKeyboardState(NULL);
 
 			float dx = 0;
 			float dy = 0;
 			registry.velocity[i].dy = 0;
 			registry.velocity[i].dx = 0;
 
-			if (state[SDL_SCANCODE_W]) {
+			if (key_state[SDL_SCANCODE_W]) {
 				dy -= 1;
 			}
-			if (state[SDL_SCANCODE_A]) {
+			if (key_state[SDL_SCANCODE_A]) {
 				dx -= 1;
 			}
-			if (state[SDL_SCANCODE_S]) {
+			if (key_state[SDL_SCANCODE_S]) {
 				dy += 1;
 			}
-			if (state[SDL_SCANCODE_D]) {
+			if (key_state[SDL_SCANCODE_D]) {
 				dx += 1;
 			}
 
 			if (dy || dx) {
 				Normalize(dx, dy);
 			}
-			registry.velocity[i].dx += (dx * 100);
-			registry.velocity[i].dy += (dy * 100);
+			registry.velocity[i].dx += (dx * state.playerSpeed);
+			registry.velocity[i].dy += (dy * state.playerSpeed);
 		}
 	}
 }

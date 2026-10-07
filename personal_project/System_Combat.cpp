@@ -32,12 +32,12 @@ void PlayerAutoShootSystem(GameState& state, Registry& registry, float dt) {
 			registry.velocity[bullet].dx = dir.x * 250.0f;
 			registry.velocity[bullet].dy = dir.y * 250.0f;
 
-			state.fireTimer = state.maxFireCooldown;
+			state.fireTimer = state.maxFireCooldown - state.playerCooldownMod;
 		}
 	}
 }
 
-void CombatResolutionSystem(WorldData& world) {
+void CombatResolutionSystem(WorldData& world, GameState& state) {
 	for (const auto& event : world.collisionEvents) {
 		int bullet = -1;
 		int grunt = -1;
@@ -53,7 +53,7 @@ void CombatResolutionSystem(WorldData& world) {
 
 		if (bullet != -1 && grunt != -1) {
 			if(!world.registry.isActive[bullet] || !world.registry.isActive[grunt]) continue;
-			world.registry.health[grunt]--;
+			world.registry.health[grunt]-= state.playerDamage;
 			world.registry.DestroyEntity(bullet);
 		}
 	}

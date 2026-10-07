@@ -2,9 +2,9 @@
 #ifndef __ENGINE_H__
 #define __ENGINE_H__
 #include "AssetManager.h"
+#include "Upgrades.h"
 #include "ECS.h"
 #include <map>
-#include <vector>
 #include <utility>
 #include <SDL_ttf.h>
 
@@ -47,6 +47,16 @@ struct GameState {
 	float difficulty = 1.0f;
 	float enemyAmount = 0.0f;
 	bool paused = false;
+	int inventoryLevels[ITEM_MAX] = { 0 };
+	int currentWeaponCount = 0;
+	int currentPassiveCount = 0;
+	const int MAX_SLOTS = 6;
+	float playerSpeed = 100.0f;
+	int playerDamage = 1;
+	float playerArea = 1.0f;
+	int playerAmount = 1;
+	float playerCooldownMod = 0.0f;
+	std::vector<ItemID> currentUpgradeChoices;
 };
 
 struct WorldData {
@@ -56,6 +66,7 @@ struct WorldData {
 	std::map<std::pair<int, int>, int> loadedChunks;
 	Transform camera;
 	std::vector<CollisionEvent> collisionEvents;
+	Item items[ITEM_MAX];
 };
 
 #endif //__ENGINE_H__

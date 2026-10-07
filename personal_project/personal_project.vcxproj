@@ -138,6 +138,7 @@
     <ClCompile Include="System_Physics.cpp" />
     <ClCompile Include="System_Player.cpp" />
     <ClCompile Include="System_Render.cpp" />
+    <ClCompile Include="System_Upgrades.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetManager.h" />
@@ -146,6 +147,7 @@
     <ClInclude Include="GameData.h" />
     <ClInclude Include="MathUtils.h" />
     <ClInclude Include="System.h" />
+    <ClInclude Include="Upgrades.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

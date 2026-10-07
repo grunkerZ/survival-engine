@@ -1,7 +1,9 @@
+#pragma once
 #ifndef __UPGRADES_H__
 #define __UPGRADES_H__
 
-#include "System.h"
+#include <string>
+#include <vector>
 
 enum ItemID {
 	ITEM_SLINGSHOT,
@@ -31,4 +33,6 @@ struct Item {
 	std::vector<ItemLevelData> levels;
 };
 
-#endif __UPGRADES_H__
+void CreateItem(Item& item, ItemID id, std::string name, ItemCategory category, int maxLevel);
+
+#endif //__UPGRADES_H__
