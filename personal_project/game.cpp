@@ -2,12 +2,14 @@
 #include "System.h"
 #include "EntityFactory.h"
 #include <cstdlib>
+#include <time.h>
 
 EngineContext engine;
 GameState state;
 WorldData world;
 
 int main(int argc, char* argv[]) {
+	srand(time(NULL));
 	int player = world.registry.CreateEntity();
 	world.registry.position[player].x = 0;
 	world.registry.position[player].y = 300;
@@ -30,10 +32,12 @@ int main(int argc, char* argv[]) {
 	engine.assets.AddTexture(engine.renderer, "skull", "sprites/fb225.png");
 	engine.assets.AddTexture(engine.renderer, "projectile", "sprites/fa212.png");
 	engine.assets.AddTexture(engine.renderer, "xp", "sprites/fb161.png");
+	engine.assets.AddTexture(engine.renderer, "tileset", "tileset.png");
 	engine.textureMap[ET_PLAYER] = engine.assets.GetTexture("player");
 	engine.textureMap[ET_GRUNT] = engine.assets.GetTexture("skull");
 	engine.textureMap[ET_BULLET] = engine.assets.GetTexture("projectile");
 	engine.textureMap[ET_XP] = engine.assets.GetTexture("xp");
+	engine.textureMap[ET_TILESET] = engine.assets.GetTexture("tileset");
 
 	engine.running = 1;
 	state.difficulty = 1;
@@ -63,6 +67,7 @@ int main(int argc, char* argv[]) {
 
 		PhysicsSystem(world.registry, engine.dt);
 
+		UpdateMapSystem(world);
 		UpdateSpatialGrid(world);
 		CollisionDetectionSystem(world);
 

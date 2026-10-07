@@ -60,39 +60,19 @@ void ProcessEvent(EngineContext& engine) {
 void LifeCycleSystem(WorldData& world) {
 	for (int i = 0; i < MAX_ENTITIES; i++) {
 		if (world.registry.isActive[i]) {
-			float left = world.camera.x - 1000.0f;
-			float right = world.camera.x + SCREEN_W + 1000.0f;
-			float top = world.camera.y - 1000.0f;
-			float bottom = world.camera.y + SCREEN_H + 1000.0f;
+			float left = world.camera.x - 250.0f;
+			float right = world.camera.x + SCREEN_W + 250.0f;
+			float top = world.camera.y - 250.0f;
+			float bottom = world.camera.y + SCREEN_H + 250.0f;
 			if (world.registry.position[i].x < left || world.registry.position[i].x > right || world.registry.position[i].y < top || world.registry.position[i].y > bottom) {
 				if (world.registry.isProjectile[i]) {
 					world.registry.DestroyEntity(i);
 					std::cout << "Entity Destroyed: Off Screen" << std::endl;
 				}
 				else if (world.registry.hasAIController[i]) {
-					float left = world.camera.x - 150.0f;
-					float right = world.camera.x + SCREEN_W + 150.0f;
-					float top = world.camera.y - 150.0f;
-					float bottom = world.camera.y + SCREEN_H + 150.0f;
-
-					float edge = rand() % 4;
-
-					if (edge == 0) {
-						world.registry.position[i].x = left;
-						world.registry.position[i].y = world.camera.y + rand() % SCREEN_H;
-					}
-					else if (edge == 1) {
-						world.registry.position[i].x = right;
-						world.registry.position[i].y = world.camera.y + rand() % SCREEN_H;
-					}
-					else if (edge == 2) {
-						world.registry.position[i].x = world.camera.x + rand() % SCREEN_W;
-						world.registry.position[i].y = top;
-					}
-					else if (edge == 3) {
-						world.registry.position[i].x = world.camera.x + rand() % SCREEN_W;
-						world.registry.position[i].y = bottom;
-					}
+					Vector2D pos = GetRandomOffscreenPosition(world.camera);
+					world.registry.position[i].x = pos.x;
+					world.registry.position[i].y = pos.y;
 
 					std::cout << "Monster Respawned: Off Screen" << std::endl;
 				}
@@ -106,12 +86,3 @@ void LifeCycleSystem(WorldData& world) {
 	}
 }
 
-void UpdateSpatialGrid(WorldData& world) {
-	world.spatialGrid.clear();
-
-	for (int i = 0; i < MAX_ENTITIES; i++) {
-		if (world.registry.isActive[i]){
-			world.spatialGrid[{(int)(world.registry.position[i].x / CELL_SIZE), (int)(world.registry.position[i].y / CELL_SIZE)}].push_back(i);
-		}
-	}
-}

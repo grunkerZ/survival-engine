@@ -78,8 +78,8 @@ void SeperationResolutionSystem(WorldData& world) {
 
 			Vector2D dir = GetDirection(world.registry.position[event.entityA].x, world.registry.position[event.entityA].y, world.registry.position[event.entityB].x, world.registry.position[event.entityB].y);
 			world.registry.position[event.entityA].x += (1.5f * dir.x);
-			world.registry.position[event.entityB].x += (1.5f * dir.x);
-			world.registry.position[event.entityA].y -= (1.5f * dir.y);
+			world.registry.position[event.entityB].x -= (1.5f * dir.x);
+			world.registry.position[event.entityA].y += (1.5f * dir.y);
 			world.registry.position[event.entityB].y -= (1.5f * dir.y);
 		}
 		else if (world.registry.hasPlayerController[event.entityA] && world.registry.hasAIController[event.entityB]) {
@@ -95,8 +95,8 @@ void SeperationResolutionSystem(WorldData& world) {
 			if (!world.registry.isActive[player] || !world.registry.isActive[grunt]) continue;
 			Vector2D dir = GetDirection(world.registry.position[player].x, world.registry.position[player].y, world.registry.position[grunt].x, world.registry.position[grunt].y);
 			world.registry.position[player].x += (0.5f * dir.x);
-			world.registry.position[grunt].x += (2.0f * dir.x);
-			world.registry.position[player].y -= (0.5f * dir.y);
+			world.registry.position[grunt].x -= (2.0f * dir.x);
+			world.registry.position[player].y += (0.5f * dir.y);
 			world.registry.position[grunt].y -= (2.0f * dir.y);
 		}
 	}

@@ -12,6 +12,7 @@ enum EntityType {
 	ET_GRUNT,
 	ET_BULLET,
 	ET_XP,
+	ET_TILESET,
 	ET_END
 };
 

@@ -41,10 +41,10 @@ inline Vector2D GetDirection(float x1, float y1, float x2, float y2) {
 
 inline Vector2D GetRandomOffscreenPosition(Transform camera) {
 	Vector2D pos;
-	float left = camera.x - 150.0f;
-	float right = camera.x + SCREEN_W + 150.0f;
-	float top = camera.y - 150.0f;
-	float bottom = camera.y + SCREEN_H + 150.0f;
+	float left = camera.x - 100.0f;
+	float right = camera.x + SCREEN_W + 100.0f;
+	float top = camera.y - 100.0f;
+	float bottom = camera.y + SCREEN_H + 100.0f;
 
 	int edge = rand() % 4;
 

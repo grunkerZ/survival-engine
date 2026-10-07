@@ -25,5 +25,6 @@ void EnemyAISystem(Registry& registry);
 void EnemySpawnerSystem(WorldData& world, GameState& state, float dt);
 void InitMapPrefabs(WorldData& world);
 void LoadMapPrefab(WorldData& world, std::string filepath);
+void UpdateMapSystem(WorldData& data);
 
 #endif // __SYSTEM_H__
