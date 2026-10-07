@@ -4,7 +4,7 @@
 
 #include "GameData.h"
 
-void PickupResolutionSystem(WorldData& world, int& playerXP);
+void PickupResolutionSystem(WorldData& world, GameState& state);
 void MagnetSystem(Registry& registry, int playerId);
 void PlayerAutoShootSystem(GameState& state, Registry& registry, float dt);
 void CombatResolutionSystem(WorldData& world);
@@ -15,7 +15,7 @@ void SeperationResolutionSystem(WorldData& world);
 void RenderSystem(WorldData& world, EngineContext& engine);
 void ClearScreen(SDL_Renderer* renderer, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 void PresentScreen(SDL_Renderer* renderer);
-void RenderUI(EngineContext& engine, Registry& registry);
+void RenderUI(EngineContext& engine, Registry& registry, GameState& state, bool debug);
 void Quit(EngineContext& engine);
 int Init(EngineContext& engine, Uint32 flags);
 void ProcessEvent(EngineContext& engine);
@@ -26,5 +26,6 @@ void EnemySpawnerSystem(WorldData& world, GameState& state, float dt);
 void InitMapPrefabs(WorldData& world);
 void LoadMapPrefab(WorldData& world, std::string filepath);
 void UpdateMapSystem(WorldData& data);
+void LevelUp(GameState& state);
 
 #endif // __SYSTEM_H__

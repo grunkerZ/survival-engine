@@ -73,13 +73,13 @@ int main(int argc, char* argv[]) {
 
 		CombatResolutionSystem(world);
 		SeperationResolutionSystem(world);
-		PickupResolutionSystem(world, state.playerXP);
+		PickupResolutionSystem(world, state);
 
 		LifeCycleSystem(world);
 
 		ClearScreen(engine.renderer, 30, 30, 30, 255);
 		RenderSystem(world, engine);
-		RenderUI(engine, world.registry);
+		RenderUI(engine, world.registry, state, true);
 		PresentScreen(engine.renderer);
 
 		Uint64 workingTime = SDL_GetTicks64() - currentTime;

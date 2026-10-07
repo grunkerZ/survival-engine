@@ -40,6 +40,7 @@ struct GameState {
 	int playerXP = 0;
 	int playerLvl = 1;
 	int xpToNextLvl = 5;
+	int pendingUpgrades = 0;
 	float fireTimer = 0.0f;
 	float maxFireCooldown = 1.0f;
 	float waveCooldown = 0.0f;

@@ -25,6 +25,8 @@ int Init(EngineContext& engine, Uint32 flags) {
 	engine.window = SDL_CreateWindow("simulation", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_W, SCREEN_H, 0);
 	engine.renderer = SDL_CreateRenderer(engine.window, -1, SDL_RENDERER_ACCELERATED);
 
+	SDL_SetRenderDrawBlendMode(engine.renderer, SDL_BLENDMODE_BLEND);
+
 	if (!engine.window || !engine.renderer) {
 		std::cout << "\n*** CRITICAL ERROR: SDL window/render failed: " << SDL_GetError() << " ***\n" << std::endl;
 		Quit(engine);

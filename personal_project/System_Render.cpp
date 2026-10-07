@@ -9,19 +9,31 @@ void PresentScreen(SDL_Renderer* renderer) {
 	SDL_RenderPresent(renderer);
 }
 
-void RenderUI(EngineContext& engine, Registry& registry) {
-	std::string uiText = "FPS: " + std::to_string(engine.currentFps) + " | Entities: " + std::to_string(registry.activeEntityCount);
+void RenderUI(EngineContext& engine, Registry& registry, GameState& state, bool debug) {
+	float buffer = 250;
+	float xpPercent = (float)state.playerXP / (float)state.xpToNextLvl;
+	SDL_Rect xpBar = { buffer, 25, SCREEN_W - (2 * buffer), 10 };
+	SDL_Rect xpFill = { buffer, 25, xpBar.w * xpPercent, 10 };
 
-	SDL_Color white = { 255, 255, 255, 255 };
-	SDL_Surface* surface = TTF_RenderText_Solid(engine.debugFont, uiText.c_str(), white);
+	SDL_SetRenderDrawColor(engine.renderer, 128, 128, 128, 128);
+	SDL_RenderFillRect(engine.renderer, &xpBar);
+	SDL_SetRenderDrawColor(engine.renderer, 30, 144, 255, 255);
+	SDL_RenderFillRect(engine.renderer, &xpFill);
+	
+	if(debug){
+		std::string uiText = "FPS: " + std::to_string(engine.currentFps) + " | Entities: " + std::to_string(registry.activeEntityCount);
 
-	SDL_Texture* texture = SDL_CreateTextureFromSurface(engine.renderer, surface);
+		SDL_Color white = { 255, 255, 255, 255 };
+		SDL_Surface* surface = TTF_RenderText_Solid(engine.debugFont, uiText.c_str(), white);
 
-	SDL_Rect uiBounds = { 10, 10, surface->w, surface->h };
-	SDL_RenderCopy(engine.renderer, texture, NULL, &uiBounds);
+		SDL_Texture* texture = SDL_CreateTextureFromSurface(engine.renderer, surface);
 
-	SDL_FreeSurface(surface);
-	SDL_DestroyTexture(texture);
+		SDL_Rect uiBounds = { 10, 10, surface->w, surface->h };
+		SDL_RenderCopy(engine.renderer, texture, NULL, &uiBounds);
+
+		SDL_FreeSurface(surface);
+		SDL_DestroyTexture(texture);
+	}
 }
 
 void RenderMap(WorldData& world, EngineContext& engine) {
