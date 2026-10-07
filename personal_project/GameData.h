@@ -11,6 +11,11 @@
 const int SCREEN_W = 1366;
 const int SCREEN_H = 768;
 const int CELL_SIZE = 64;
+const int CHUNK_SIZE = 10;
+
+struct ChunkPrefab {
+	int tiles[CHUNK_SIZE][CHUNK_SIZE];
+};
 
 struct CollisionEvent {
 	int entityA;
@@ -45,6 +50,8 @@ struct GameState {
 struct WorldData {
 	Registry registry;
 	std::map<std::pair<int, int>, std::vector<int>> spatialGrid;
+	std::vector<ChunkPrefab> availablePrefabs;
+	std::map<std::pair<int, int>, int> loadedChunks;
 	Transform camera;
 	std::vector<CollisionEvent> collisionEvents;
 };

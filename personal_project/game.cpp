@@ -22,6 +22,8 @@ int main(int argc, char* argv[]) {
 		return -1;
 	}
 
+	InitMapPrefabs(world);
+
 	Uint64 lastTime = SDL_GetTicks64();
 
 	engine.assets.AddTexture(engine.renderer, "player", "sprites/fb5.png");

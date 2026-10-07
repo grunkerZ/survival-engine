@@ -23,5 +23,7 @@ void LifeCycleSystem(WorldData& world);
 void UpdateSpatialGrid(WorldData& world);
 void EnemyAISystem(Registry& registry);
 void EnemySpawnerSystem(WorldData& world, GameState& state, float dt);
+void InitMapPrefabs(WorldData& world);
+void LoadMapPrefab(WorldData& world, std::string filepath);
 
 #endif // __SYSTEM_H__

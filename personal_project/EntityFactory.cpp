@@ -10,12 +10,12 @@ int SpawnGrunt(Registry& registry, float x, float y) {
 
 	registry.position[monster].x = x;
 	registry.position[monster].y = y;
-	registry.bounds[monster] = { (int)(registry.position[monster].x), (int)(registry.position[monster].y), 32, 32 };
+	registry.bounds[monster] = { 0, 0, 32, 32 };
+	registry.bounds[monster].y = registry.position[monster].y - (registry.bounds[monster].h / 2.0f);
+	registry.bounds[monster].x = registry.position[monster].x - (registry.bounds[monster].w / 2.0f);
 	registry.entityType[monster] = ET_GRUNT;
 	registry.hasAIController[monster] = true;
 	registry.health[monster] = 2;
-	registry.bounds[monster].y = registry.position[monster].y - (registry.bounds[monster].h / 2.0f);
-	registry.bounds[monster].x = registry.position[monster].x - (registry.bounds[monster].w / 2.0f);
 
 	return monster;
 }
@@ -30,11 +30,12 @@ int SpawnBullet(Registry& registry, float x, float y) {
 
 	registry.position[bullet].x = x;
 	registry.position[bullet].y = y;
-	registry.bounds[bullet] = { (int)(registry.position[bullet].x), (int)(registry.position[bullet].y), 16, 16 };
-	registry.entityType[bullet] = ET_BULLET;
-	registry.isProjectile[bullet] = true;
+	registry.bounds[bullet] = { 0, 0, 16, 16 };
 	registry.bounds[bullet].y = registry.position[bullet].y - (registry.bounds[bullet].h / 2.0f);
 	registry.bounds[bullet].x = registry.position[bullet].x - (registry.bounds[bullet].w / 2.0f);
+	registry.entityType[bullet] = ET_BULLET;
+	registry.isProjectile[bullet] = true;
+	
 
 	return bullet;
 }
@@ -47,7 +48,9 @@ int SpawnXP(Registry& registry, float x, float y) {
 	}
 	registry.position[xp].x = x;
 	registry.position[xp].y = y;
-	registry.bounds[xp] = { (int)(registry.position[xp].x - (registry.bounds[xp].w / 2.0f)), (int)(registry.position[xp].y - (registry.bounds[xp].h / 2.0f)), 16,16 };
+	registry.bounds[xp] = { 0, 0, 16, 16 };
+	registry.bounds[xp].y = registry.position[xp].y - (registry.bounds[xp].h / 2.0f);
+	registry.bounds[xp].x = registry.position[xp].x - (registry.bounds[xp].w / 2.0f);
 	registry.entityType[xp] = ET_XP;
 	registry.isExperience[xp] = true;
 
