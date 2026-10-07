@@ -1,7 +1,16 @@
 #include "System.h";
 #include "MathUtils.h"
 
-void PickupResolutionSystem(WorldData& world, int& playerXP) {
+void LevelUp(GameState& state) {
+	while (state.playerXP >= state.xpToNextLvl) {
+		state.playerXP -= state.xpToNextLvl;
+		state.playerLvl++;
+		state.pendingUpgrades++;
+		state.xpToNextLvl *= 1.2f;
+	}
+}
+
+void PickupResolutionSystem(WorldData& world, GameState& state) {
 	for (const auto& event : world.collisionEvents) {
 		int xp = -1;
 		int player = -1;
@@ -16,10 +25,11 @@ void PickupResolutionSystem(WorldData& world, int& playerXP) {
 
 		if (player != -1 && xp != -1) {
 			if (!world.registry.isActive[player] || !world.registry.isActive[xp]) continue;
-			playerXP++;
+			state.playerXP++;
 			world.registry.DestroyEntity(xp);
 		}
 	}
+	LevelUp(state);
 }
 
 void MagnetSystem(Registry& registry, int playerId) {
