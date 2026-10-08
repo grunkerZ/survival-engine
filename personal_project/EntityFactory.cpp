@@ -20,7 +20,7 @@ int SpawnGrunt(Registry& registry, float x, float y) {
 	return monster;
 }
 
-int SpawnBullet(Registry& registry, float x, float y) {
+int SpawnBullet(Registry& registry, float x, float y, int damage) {
 	int bullet = registry.CreateEntity();
 
 	if (bullet == -1) {
@@ -35,6 +35,7 @@ int SpawnBullet(Registry& registry, float x, float y) {
 	registry.bounds[bullet].x = registry.position[bullet].x - (registry.bounds[bullet].w / 2.0f);
 	registry.entityType[bullet] = ET_BULLET;
 	registry.isProjectile[bullet] = true;
+	registry.damage[bullet] = damage;
 	
 
 	return bullet;

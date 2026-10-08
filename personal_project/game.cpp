@@ -40,6 +40,8 @@ int main(int argc, char* argv[]) {
 	engine.textureMap[ET_XP] = engine.assets.GetTexture("xp");
 	engine.textureMap[ET_TILESET] = engine.assets.GetTexture("tileset");
 
+	ApplyUpgrade(ITEM_SLINGSHOT, state, world);
+
 	engine.running = 1;
 	state.difficulty = 1;
 

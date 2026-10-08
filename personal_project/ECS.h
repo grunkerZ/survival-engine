@@ -31,6 +31,7 @@ struct Registry {
 	bool isProjectile[MAX_ENTITIES];
 	bool isExperience[MAX_ENTITIES];
 	int health[MAX_ENTITIES];
+	int damage[MAX_ENTITIES];
 	int entityType[MAX_ENTITIES];
 	Transform position[MAX_ENTITIES];
 	Velocity velocity[MAX_ENTITIES];
@@ -58,6 +59,7 @@ struct Registry {
 		position[id] = { 0 };
 		velocity[id] = { 0 };
 		bounds[id] = { 0 };
+		damage[id] = 0;
 		activeEntityCount--;
 	}
 };

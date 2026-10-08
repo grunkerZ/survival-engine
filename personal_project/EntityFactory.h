@@ -6,7 +6,7 @@
 
 int SpawnGrunt(Registry& registry, float x, float y);
 
-int SpawnBullet(Registry& registry, float x, float y);
+int SpawnBullet(Registry& registry, float x, float y, int damage);
 
 int SpawnXP(Registry& registry, float x, float y);
 

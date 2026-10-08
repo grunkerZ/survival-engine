@@ -42,7 +42,6 @@ struct GameState {
 	int playerLvl = 1;
 	int xpToNextLvl = 5;
 	int pendingUpgrades = 0;
-	float fireTimer = 0.0f;
 	float maxFireCooldown = 1.0f;
 	float waveCooldown = 0.0f;
 	float difficulty = 1.0f;
@@ -54,8 +53,8 @@ struct GameState {
 	float playerSpeed = 100.0f;
 	int playerDamage = 1;
 	float playerArea = 1.0f;
-	int playerAmount = 1;
-	float playerCooldownMod = 0.0f;
+	int playerAmount = 0;
+	float playerCooldownMod = 1.0f;
 	std::vector<ItemID> currentUpgradeChoices;
 	ActiveWeapon equippedWeapons[MAX_SLOTS];
 };

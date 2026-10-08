@@ -1,29 +1,38 @@
 #include "System.h"
 #include "MathUtils.h"
 #include "EntityFactory.h"
-
+#include <algorithm>
 
 void PlayerAutoShootSystem(GameState& state, Registry& registry, float dt) {
-	state.fireTimer -= dt;
-	if (state.fireTimer <= 0.0f) {
+	int id = -1;
+	for (int i = 0; i < MAX_SLOTS; i++) {
+		if (state.equippedWeapons[i].id == ITEM_SLINGSHOT) {
+			id = i;
+			break;
+		}
+	}
+	if (id == -1) return;
+	ActiveWeapon& weapon = state.equippedWeapons[id];
+
+	weapon.fireTimer -= dt;
+	if (weapon.fireTimer <= 0.0f) {
 		float px = registry.position[state.playerID].x;
 		float py = registry.position[state.playerID].y;
 
-		float minDistance = 99999.0f;
-		int targetId = -1;
+		std::vector<std::pair<float, int>> targets;
 
 		for (int i = 0; i < MAX_ENTITIES; i++) {
 			if (registry.isActive[i] && registry.hasAIController[i]) {
 				float dist = GetDistanceSq(px, py, registry.position[i].x, registry.position[i].y);
-				if (dist < minDistance) {
-					minDistance = dist;
-					targetId = i;
-				}
+				targets.push_back({ dist, i });
 			}
 		}
 
-		if (targetId != -1) {
-			int bullet = SpawnBullet(registry, px, py);
+		std::sort(targets.begin(), targets.end());
+
+		for (int i = 0; i < (weapon.baseAmt + state.playerAmount) && i < targets.size(); i++) {
+			int targetId = targets[i].second;
+			int bullet = SpawnBullet(registry, px, py, weapon.baseDmg);
 			if (bullet == -1) {
 				return;
 			}
@@ -31,8 +40,10 @@ void PlayerAutoShootSystem(GameState& state, Registry& registry, float dt) {
 			Vector2D dir = GetDirection(registry.position[targetId].x, registry.position[targetId].y, px, py);
 			registry.velocity[bullet].dx = dir.x * 250.0f;
 			registry.velocity[bullet].dy = dir.y * 250.0f;
+			registry.bounds[bullet].w *= weapon.baseArea * state.playerArea;
+			registry.bounds[bullet].h *= weapon.baseArea * state.playerArea;
 
-			state.fireTimer = state.maxFireCooldown - state.playerCooldownMod;
+			weapon.fireTimer = state.maxFireCooldown * weapon.baseCD * state.playerCooldownMod;
 		}
 	}
 }
