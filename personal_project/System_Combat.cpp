@@ -23,28 +23,32 @@ void PlayerAutoShootSystem(GameState& state, Registry& registry, float dt) {
 
 		for (int i = 0; i < MAX_ENTITIES; i++) {
 			if (registry.isActive[i] && registry.hasAIController[i]) {
-				float dist = GetDistanceSq(px, py, registry.position[i].x, registry.position[i].y);
-				targets.push_back({ dist, i });
+				float dist = GetDistance(px, py, registry.position[i].x, registry.position[i].y);
+				if(dist <= 800) targets.push_back({ dist, i });
 			}
 		}
 
 		std::sort(targets.begin(), targets.end());
 
-		for (int i = 0; i < (weapon.baseAmt + state.playerAmount) && i < targets.size(); i++) {
-			int targetId = targets[i].second;
-			int bullet = SpawnBullet(registry, px, py, weapon.baseDmg);
-			if (bullet == -1) {
-				return;
+		if(!targets.empty()){
+			for (int i = 0; i < (weapon.baseAmt + state.playerAmount); i++) {
+				int idx = i % targets.size();
+				int targetId = targets[idx].second;
+				int bullet = SpawnBullet(registry, px, py, weapon.baseDmg);
+				if (bullet == -1) {
+					return;
+				}
+
+				Vector2D dir = GetDirection(registry.position[targetId].x, registry.position[targetId].y, px, py);
+				registry.velocity[bullet].dx = dir.x * 250.0f;
+				registry.velocity[bullet].dy = dir.y * 250.0f;
+				registry.bounds[bullet].w *= weapon.baseArea * state.playerArea;
+				registry.bounds[bullet].h *= weapon.baseArea * state.playerArea;
+
+				weapon.fireTimer = state.maxFireCooldown * weapon.baseCD * state.playerCooldownMod;
 			}
-
-			Vector2D dir = GetDirection(registry.position[targetId].x, registry.position[targetId].y, px, py);
-			registry.velocity[bullet].dx = dir.x * 250.0f;
-			registry.velocity[bullet].dy = dir.y * 250.0f;
-			registry.bounds[bullet].w *= weapon.baseArea * state.playerArea;
-			registry.bounds[bullet].h *= weapon.baseArea * state.playerArea;
-
-			weapon.fireTimer = state.maxFireCooldown * weapon.baseCD * state.playerCooldownMod;
 		}
+		targets.clear();
 	}
 }
 
